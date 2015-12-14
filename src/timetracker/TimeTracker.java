@@ -14,6 +14,7 @@ import timetracker.*;
  * @author Deborah Goossens
  */
 public class TimeTracker {
+    
     /**
      * User property
      */
@@ -29,6 +30,7 @@ public class TimeTracker {
      */
     private static Client[] clients;
     private static List<Client> clientList;
+    
     /**
      * UserProjectHours property
      */
@@ -72,7 +74,7 @@ public class TimeTracker {
 //        
     }
 
-     /**
+    /**
      * Add new user
      * @return User
      */
@@ -99,7 +101,7 @@ public class TimeTracker {
 
     /**
      * Adds the action menu
-     * @retunr void
+     * @return void
      */
     private static void ShowMenu() {
         Scanner input = new Scanner(System.in);
@@ -132,6 +134,7 @@ public class TimeTracker {
 
     /**
      * Register hours on a project
+     * @return void
      */
     private static void RegisterHours() {
         int amountOfProjects = projects.length;
@@ -147,6 +150,7 @@ public class TimeTracker {
 
     /**
      * Add a new project
+     * @return void
      */
     private static void RegisterProject() {
         int amountOfClients = clients.length;
@@ -162,6 +166,7 @@ public class TimeTracker {
 
     /**
      * Add a new client
+     * @return void
      */
     private static void RegisterClient() {
         Client newClient;
@@ -181,6 +186,7 @@ public class TimeTracker {
 
     /**
      * Show the logged hours for the user
+     * @return void
      */
     private static void Logbook() {
         
