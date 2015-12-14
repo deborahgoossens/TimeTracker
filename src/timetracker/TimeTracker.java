@@ -53,10 +53,6 @@ public class TimeTracker {
             ShowMenu();
         }
         
-//        Date sdate = new Date(2015-1900,1,1);
-//        Date edate = new Date(2016-1900,1,1);
-//        
-//        Client client = new Client(1, "Connect Holland");
 //        Project project = new Project(1, "project x", client.id, 100, sdate, edate);
 //        
 //        User user = new User("Deborah");
@@ -106,11 +102,13 @@ public class TimeTracker {
     private static void ShowMenu() {
         Scanner input = new Scanner(System.in);
         
+        System.out.println(" ");
         System.out.println("1 - Uren registreren");
         System.out.println("2 - Project toevoegen");
         System.out.println("3 - Klant toevoegen");
         System.out.println("4 - Geregistreerde uren bekijken");
         System.out.println("5 - Uitloggen");
+        System.out.print("Ga naar: ");
 
         int action = input.nextInt();
 
@@ -153,13 +151,35 @@ public class TimeTracker {
      * @return void
      */
     private static void RegisterProject() {
-        int amountOfClients = clients.length;
+        int amountOfClients = clientList.size();
+        Scanner input = new Scanner(System.in);
 
         if (amountOfClients < 1) {
             System.out.println("Er zijn geen klanten. Voeg eerst een klant toe.");
         }
         else {
             System.out.println("Selecteer een klant: ");
+            for (Client client : clientList) {
+                System.out.println(client.id + " - " + client.name);
+            }
+            int clientId = input.nextInt();
+            //        Project project = new Project(1, "project x", clientId, 100, sdate, edate);
+            System.out.print("Geef een projectnaam op:  ");
+            String projectName = input.next();
+            
+            System.out.print("Geef het maximum aantal uur op dat geregistreerd mag worden:  ");
+            int maxHours = input.nextInt();
+            
+            System.out.print("Geef de startdatum op (Y-m-d):  ");
+            Date startDate = new Date(input.next());
+//        Date edate = new Date(2016-1900,1,1);
+            
+            System.out.print("Geef de einddatum op (Y-m-d):  ");
+            Date endDate = new Date(input.next());
+            
+            Project project = new Project(1, projectName, clientId, maxHours, startDate, endDate);
+            System.out.println(project);
+            
         }
         ShowMenu();
     }
@@ -175,11 +195,11 @@ public class TimeTracker {
         System.out.println("Voer klantnaam in: ");
         
         String clientName = input.next();
-        newClient = new Client((clientList.size()), clientName);
+        newClient = new Client( (clientList.size( )), clientName);
         
         clientList.add(newClient);
-        System.out.println("Klant " + clientList.get(clientList.size()-1).name + " toegevoegd.");
-        System.out.println("Aantal klanten: " + clientList.size());
+        System.out.println("Klant " + clientList.get(clientList.size() - 1).name + " toegevoegd.");
+        System.out.println("Aantal klanten: " + clientList.size() );
 
         ShowMenu();
     }
