@@ -3,7 +3,11 @@
  */
 package timetracker;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Deborah Goossens
@@ -32,14 +36,24 @@ public class Project {
     /**
      * New project
      */
-    public Project(int id, String name, int clientId, double maxHours, Date startDate, Date endDate){
+    public Project(int id, String name, int clientId, double maxHours, String startDate, String endDate){
         this.id = id;
         this.name = name;
         this.clientId = clientId;
         this.maxHours = maxHours;
         this.currentHours = 0;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        try {      
+            this.startDate = sdf.parse(startDate);
+        } catch (ParseException ex) {
+            Logger.getLogger(Project.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {      
+            this.endDate = sdf.parse(endDate);
+        } catch (ParseException ex) {
+            Logger.getLogger(Project.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
