@@ -4,24 +4,22 @@
 package timetracker;
 
 /**
- * @author Deborah Goossens
+ * @author Deborah van der Vegt
  */
 public class User {
     /**
-     * Id property
+     * id and name pSroperties
      */
     int id;
-    
-    /**
-     * Name property
-     */
     String name;
     
     /**
      * New user
+     * @param id
+     * @param name
      */
-    public User(String name) {
+    public User(int id, String name) {
         this.name = name;
-        id = 1;        
+        this.id = id;        
     }
 }

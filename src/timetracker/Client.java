@@ -4,17 +4,13 @@
 package timetracker;
 
 /**
- * @author Deborah Goossens
+ * @author Deborah van der Vegt
  */
 class Client {
     /**
-     * Id property
+     * id and name properties
      */
     public int id;
-    
-    /**
-     * Name property
-     */
     public String name;
     
     /**

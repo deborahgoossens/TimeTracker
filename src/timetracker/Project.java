@@ -10,31 +10,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @author Deborah Goossens
+ * @author Deborah van der Vegt
  */
 public class Project {
     /**
-     * Id and client property
+     * id, clientId, name, maxHours, currentHours, startDate and endDate properties
      */
     public int id, clientId;
-    
-    /**
-     * Name property
-     */
     public String name;
-    
-    /**
-     * maxHours and currentHours property
-     */
     public double maxHours, currentHours;
-    
-    /**
-     * startDate and endDate property
-     */
     public Date startDate, endDate;
     
     /**
-     * New project
+     * Constructor
+     * @param id
+     * @param name
+     * @param clientId
+     * @param maxHours
+     * @param startDate
+     * @param endDate
      */
     public Project(int id, String name, int clientId, double maxHours, String startDate, String endDate){
         this.id = id;
@@ -55,34 +49,10 @@ public class Project {
             Logger.getLogger(Project.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    /**
-     * Gets the maximum available hours for the project
-     * @return double
-     */
-    public double GetMaxHours() {
-        return maxHours;
-    }
-    
-    /**
-     * Sets the maximum amount hours for the project
-     * @return void
-     */
-     public void SetMaxHours(double maxHours) {
-        this.maxHours = maxHours;
-    }
-    
-    /**
-     * Gets the currently amount of hours
-     * @return double
-     */
-    public double GetCurrentHours() {
-        return currentHours;
-    }
-    
+
     /**
      * Calculates the available hours
-     * @return double
+     * @return 
      */
     public double HoursAvailable(){
         return maxHours - currentHours;
@@ -90,17 +60,16 @@ public class Project {
     
     /**
      * Add an amount of hours
-     * @return void
+     * @param hours
      */
     public void AddHours(double hours) {
         currentHours += hours;
-        System.out.println("Er zijn "+hours+" toegevoegd aan "+name+", er zijn nog "+HoursAvailable()+" uur beschikbaar");
+        System.out.println("Er zijn " + hours + " uren toegevoegd aan project " + name + ". Er zijn nog " + HoursAvailable() + "/" + maxHours + " uren beschikbaar.");
 
     }
     
     /**
      * Checks if you're allowed to register on this project in a specific time
-     * @return boolean
      */
     public boolean DateAvailable() {
         Date currentDate = new Date();

@@ -4,81 +4,40 @@
 package timetracker;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import timetracker.*;
-
 /**
- * @author Deborah Goossens
+ * @author Deborah van der Vegt
  */
 public class TimeTracker {
     
     /**
-     * User property
+     * User, Project, Client and UserProjectHours List-properties
      */
-    private static User user;
-    
-    /**
-     * Project property
-     */
-    private static Project[] projects;
+    private static List<User> userList;
     private static List<Project> projectList;
-
-    /**
-     * Client property
-     */
-    private static Client[] clients;
     private static List<Client> clientList;
-    
-    /**
-     * UserProjectHours property
-     */
-    private static UserProjectHours[] userProjectHours;
+    private static List<UserProjectHours> userProjectHoursList;
+    private static User currentUser;
 
     /**
      * Main class
      * @param args
      */
     public static void main(String[] args) {
-        user = LogIn();
-        
-        projects = new Project[] {};
+        userList = new ArrayList<User>();
         projectList = new ArrayList<Project>();
-        
-        clients = new Client[] {};
         clientList = new ArrayList<Client>();
-
-        userProjectHours = new UserProjectHours[] {};
-        
-        if (null != user) {
-            System.out.println("Ingelogd als: " + user.name);
-            ShowMenu();
-        }
-        
-//        Project project = new Project(1, "project x", client.id, 100, sdate, edate);
-//        
-//        User user = new User("Deborah");
-//        UserProjectHours userProjectHours = new UserProjectHours(user.id, project.id);
-//
-//        System.out.println("aantal uur dat "+user.name+" aan "+project.name+" heeft gewerkt is: "+userProjectHours.GetHours());
-//        userProjectHours.AddHours(20);
-//        System.out.println("aantal uur dat "+user.name+" aan "+project.name+" heeft gewerkt is: "+userProjectHours.GetHours());
-//
-//        System.out.println("Aan project "+project.name+" is "+project.GetCurrentHours()+" gewerkt. er zijn nog "+project.HoursAvailable()+" uur beschikbaar van de "+project.GetMaxHours());
-//
-//        project.AddHours(20);
-//
-//        System.out.println("Aan project "+project.name+" is "+project.GetCurrentHours()+" gewerkt. er zijn nog "+project.HoursAvailable()+" uur beschikbaar van de "+project.GetMaxHours());
-//        
+        userProjectHoursList = new ArrayList<UserProjectHours>();
+                
+        LogIn(); 
     }
 
     /**
      * Add new user
-     * @return User
      */
-    private static User LogIn() {
+    private static void LogIn() {
         User newUser;
         String userName;
         int userAction;
@@ -90,18 +49,16 @@ public class TimeTracker {
         if (userAction == 1 || userAction == 2) {
             System.out.print("Gebruikersnaam: ");
             userName = input.next();
-            newUser = new User(userName);
-
-            return newUser;
-        }
-        else {
-            return null;
+            newUser = new User(userList.size(), userName);
+            userList.add(newUser);
+            currentUser = newUser;
+            System.out.println("Ingelogd als: " + currentUser.name);
+            ShowMenu();
         }
     }
 
     /**
      * Adds the action menu
-     * @return void
      */
     private static void ShowMenu() {
         Scanner input = new Scanner(System.in);
@@ -111,7 +68,8 @@ public class TimeTracker {
         System.out.println("2 - Project toevoegen");
         System.out.println("3 - Klant toevoegen");
         System.out.println("4 - Geregistreerde uren bekijken");
-        System.out.println("5 - Uitloggen");
+        System.out.println("5 - Andere gebruiker");
+        System.out.println("9 - Programma afsluiten");
         System.out.print("Ga naar: ");
 
         int action = input.nextInt();
@@ -130,48 +88,42 @@ public class TimeTracker {
                 Logbook();
                 break;
             case 5:
+                LogIn();
+                break;
+            case 9:
                 System.exit(0);
         }
     }
 
     /**
      * Register hours on a project
-     * @return void
      */
     private static void RegisterHours() {
-        if (projectList.size() < 1) {
-            System.out.println("Er zijn geen projecten. Voeg eerst een project toe.");
-        }
-        else {
-            System.out.println("Selecteer een project: ");
-            Scanner input = new Scanner(System.in);
-            for (Project project : projectList) {
-                System.out.println(project.id + " - " + project.name);
-            }
-            int projectId = input.nextInt();
-            
-            Project project = projectList.get(projectId);
-            if (project.DateAvailable() && project.HoursAvailable() > 0) {
-                System.out.println("Hoeveel uur wil je registreren? : ");
-                double amountOfHours = input.nextDouble();
-                if (amountOfHours <= project.HoursAvailable() ) {
-                    project.AddHours(amountOfHours);
-                    System.out.println(amountOfHours+" uur is toegevoegd, er kunnen nog " + project.HoursAvailable()+" uur van de max "+project.GetMaxHours()+" toegevoegd worden.");
+            Project project = SelectProject();
+            if(project != null) {
+                if (project.DateAvailable() && project.HoursAvailable() > 0) {
+                    Scanner input = new Scanner(System.in);
+                    System.out.println("Hoeveel uur wil je registreren? : ");
+                    double amountOfHours = input.nextDouble();
+                    if (amountOfHours <= project.HoursAvailable() ) {
+                        project.AddHours(amountOfHours);
+                        
+                        UserProjectHours userProjectHours = new UserProjectHours(currentUser.id, project.id, amountOfHours);
+                        userProjectHoursList.add(userProjectHours);
+                    }
+                    else {
+                        System.out.println("U kunt nog maximaal " + project.HoursAvailable() + " uur boeken.");
+                    }
                 }
                 else {
-                    System.out.println("U kunt nog maximaal " + project.HoursAvailable() + " uur boeken.");
+                    System.out.println("De einddatum van dit project is verlopen of het project heeft geen uren beschikbaar meer. Neem contact op met je projectmanager.");
                 }
             }
-            else {
-                System.out.println("De einddatum van dit project is verlopen of het project heeft geen uren beschikbaar meer. Neem contact op met je projectmanager.");
-            }
-        }
         ShowMenu();
     }
 
     /**
      * Add a new project
-     * @return void
      */
     private static void RegisterProject() {
         int amountOfClients = clientList.size();
@@ -186,7 +138,6 @@ public class TimeTracker {
                 System.out.println(client.id + " - " + client.name);
             }
             int clientId = input.nextInt();
-            //        Project project = new Project(1, "project x", clientId, 100, sdate, edate);
             System.out.print("Geef een projectnaam op:  ");
             String projectName = input.next();
             
@@ -195,7 +146,6 @@ public class TimeTracker {
             
             System.out.print("Geef de startdatum op (dd/mm/yyyy):  ");
             String startDate = input.next();
-//        Date edate = new Date(2016-1900,1,1);
             
             System.out.print("Geef de einddatum op (dd/mm/yyyy):  ");
             String endDate = input.next();
@@ -203,37 +153,69 @@ public class TimeTracker {
             Project project = new Project(projectList.size(), projectName, clientId, maxHours, startDate, endDate);
             projectList.add(project);
             
-            System.out.println("Nieuw project: "+projectList.get(projectList.size()-1).name+" toegevoegd voor klant: "+clientList.get(clientId).name+"");
+            System.out.println("Nieuw project: " + projectList.get(projectList.size()-1).name + " toegevoegd voor klant: " + clientList.get(clientId).name);
         }
         ShowMenu();
     }
 
     /**
      * Add a new client
-     * @return void
      */
     private static void RegisterClient() {
         Client newClient;
         Scanner input = new Scanner(System.in);
         
         System.out.println("Voer klantnaam in: ");
-        
         String clientName = input.nextLine();
-        newClient = new Client( (clientList.size()), clientName);
-        
+        newClient = new Client(clientList.size(), clientName);
         clientList.add(newClient);
+        
         System.out.println("Klant " + clientList.get(clientList.size() - 1).name + " toegevoegd.");
         System.out.println("Aantal klanten: " + clientList.size() );
-
         ShowMenu();
     }
 
     /**
      * Show the logged hours for the user
-     * @return void
      */
     private static void Logbook() {
-        
+        Project project = SelectProject();
+        if(userProjectHoursList.size() < 1) {
+            System.out.println("Er zijn nog geen geregistreerde uren.");
+        }
+        else {
+            for (UserProjectHours userProjectHours : userProjectHoursList) {
+                String userName = userList.get(userProjectHours.userid).name;
+                int projectid = projectList.get(userProjectHours.projectId).id;
+                String projectName = projectList.get(userProjectHours.projectId).name;
+                String clientName = clientList.get(project.clientId).name;
+                
+                if(projectid == project.id) {
+                    System.out.println("Gebruiker " + userName + " heeft " + userProjectHours.hours + "  uren geboekt op project " + projectName + " voor " + clientName);
+                }
+            }
+            System.out.println("===============================================");
+            System.out.println("Er zijn voor project " + project.name + " in totaal " + project.currentHours + " uren geboekt.");
+        }
+        ShowMenu();
     }
     
+    /**
+     * Show a list of projects
+     */
+    private static Project SelectProject() {
+        if (projectList.size() < 1) {
+            System.out.println("Er zijn geen projecten. Voeg eerst een project toe.");
+            return null;
+        }
+        else {
+            System.out.println("Selecteer een project: ");
+            Scanner input = new Scanner(System.in);
+            for (Project project : projectList) {
+                System.out.println(project.id + " - " + clientList.get(project.clientId).name + " - " + project.name);
+            }
+            int projectId = input.nextInt();
+            return projectList.get(projectId);
+        }
+    }
 }
