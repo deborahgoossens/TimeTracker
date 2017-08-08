@@ -1,24 +1,31 @@
 /*
- * User object
+ * User object.
  */
 package timetracker;
 
 /**
  * @author Deborah van der Vegt
  */
-public class User {
+public class User
+{
     /**
-     * id and name pSroperties
+     * The id property.
      */
     int id;
+    
+    /**
+     * The name property.
+     */
     String name;
     
     /**
-     * New user
+     * New user.
+     * 
      * @param id
      * @param name
      */
-    public User(int id, String name) {
+    public User(int id, String name)
+    {
         this.name = name;
         this.id = id;        
     }

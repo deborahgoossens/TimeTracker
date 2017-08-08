@@ -1,22 +1,28 @@
 /*
- * Client object
+ * Client object.
  */
 package timetracker;
 
 /**
  * @author Deborah van der Vegt
  */
-class Client {
+class Client
+{
     /**
-     * id and name properties
+     * The id property.
      */
     public int id;
+    
+    /**
+     * The name property.
+     */
     public String name;
     
     /**
-     * New client
+     * New client.
      */
-    public Client(int id, String name){
+    public Client(int id, String name)
+    {
         this.id = id;
         this.name = name;
     }

@@ -12,17 +12,31 @@ import java.util.logging.Logger;
 /**
  * @author Deborah van der Vegt
  */
-public class Project {
+public class Project
+{
     /**
-     * id, clientId, name, maxHours, currentHours, startDate and endDate properties
+     * The id and clientId property.
      */
     public int id, clientId;
+    
+    /**
+     * The name property.
+     */
     public String name;
+    
+    /**
+     * The maxHours and currentHours property.
+     */
     public double maxHours, currentHours;
+    
+    /**
+     * The startDate and endDate property.
+     */
     public Date startDate, endDate;
     
     /**
-     * Constructor
+     * Constructor.
+     * 
      * @param id
      * @param name
      * @param clientId
@@ -30,7 +44,8 @@ public class Project {
      * @param startDate
      * @param endDate
      */
-    public Project(int id, String name, int clientId, double maxHours, String startDate, String endDate){
+    public Project(int id, String name, int clientId, double maxHours, String startDate, String endDate)
+    {
         this.id = id;
         this.name = name;
         this.clientId = clientId;
@@ -51,27 +66,32 @@ public class Project {
     }
 
     /**
-     * Calculates the available hours
+     * Calculates the available hours.
+     * 
      * @return 
      */
-    public double HoursAvailable(){
+    public double HoursAvailable()
+    {
         return maxHours - currentHours;
     }
     
     /**
-     * Add an amount of hours
+     * Add an amount of hours.
+     * 
      * @param hours
      */
-    public void AddHours(double hours) {
+    public void AddHours(double hours)
+    {
         currentHours += hours;
         System.out.println("Er zijn " + hours + " uren toegevoegd aan project " + name + ". Er zijn nog " + HoursAvailable() + "/" + maxHours + " uren beschikbaar.");
 
     }
     
     /**
-     * Checks if you're allowed to register on this project in a specific time
+     * Checks if you're allowed to register on this project in a specific time.
      */
-    public boolean DateAvailable() {
+    public boolean DateAvailable()
+    {
         Date currentDate = new Date();
         return currentDate.before(endDate) && currentDate.after(startDate);
     }

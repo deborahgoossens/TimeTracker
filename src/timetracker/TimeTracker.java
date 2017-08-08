@@ -1,5 +1,5 @@
 /*
- * TimeTracker package
+ * TimeTracker package.
  */
 package timetracker;
 
@@ -10,22 +10,41 @@ import java.util.Scanner;
 /**
  * @author Deborah van der Vegt
  */
-public class TimeTracker {
+public class TimeTracker
+{
     
     /**
-     * User, Project, Client and UserProjectHours List-properties
+     * The User property.
      */
     private static List<User> userList;
+    
+    /**
+     * The Project property.
+     */
     private static List<Project> projectList;
+    
+    /**
+     * The Client property.
+     */
     private static List<Client> clientList;
+    
+    /**
+     * The UserProjectHours property.
+     */
     private static List<UserProjectHours> userProjectHoursList;
+    
+    /**
+     * The User property.
+     */
     private static User currentUser;
 
     /**
-     * Main class
+     * Main class.
+     * 
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         userList = new ArrayList<User>();
         projectList = new ArrayList<Project>();
         clientList = new ArrayList<Client>();
@@ -35,9 +54,10 @@ public class TimeTracker {
     }
 
     /**
-     * Add new user
+     * Add new user.
      */
-    private static void LogIn() {
+    private static void LogIn()
+    {
         User newUser;
         String userName;
         int userAction;
@@ -58,9 +78,10 @@ public class TimeTracker {
     }
 
     /**
-     * Adds the action menu
+     * Adds the action menu.
      */
-    private static void ShowMenu() {
+    private static void ShowMenu()
+    {
         Scanner input = new Scanner(System.in);
         
         System.out.println(" ");
@@ -96,9 +117,10 @@ public class TimeTracker {
     }
 
     /**
-     * Register hours on a project
+     * Register hours on a project.
      */
-    private static void RegisterHours() {
+    private static void RegisterHours()
+    {
             Project project = SelectProject();
             if(project != null) {
                 if (project.DateAvailable() && project.HoursAvailable() > 0) {
@@ -123,9 +145,10 @@ public class TimeTracker {
     }
 
     /**
-     * Add a new project
+     * Add a new project.
      */
-    private static void RegisterProject() {
+    private static void RegisterProject()
+    {
         int amountOfClients = clientList.size();
         Scanner input = new Scanner(System.in);
 
@@ -159,9 +182,10 @@ public class TimeTracker {
     }
 
     /**
-     * Add a new client
+     * Add a new client.
      */
-    private static void RegisterClient() {
+    private static void RegisterClient()
+    {
         Client newClient;
         Scanner input = new Scanner(System.in);
         
@@ -176,9 +200,10 @@ public class TimeTracker {
     }
 
     /**
-     * Show the logged hours for the user
+     * Show the logged hours for the user.
      */
-    private static void Logbook() {
+    private static void Logbook()
+    {
         Project project = SelectProject();
         if(userProjectHoursList.size() < 1) {
             System.out.println("Er zijn nog geen geregistreerde uren.");
@@ -201,9 +226,10 @@ public class TimeTracker {
     }
     
     /**
-     * Show a list of projects
+     * Show a list of projects.
      */
-    private static Project SelectProject() {
+    private static Project SelectProject()
+    {
         if (projectList.size() < 1) {
             System.out.println("Er zijn geen projecten. Voeg eerst een project toe.");
             return null;
